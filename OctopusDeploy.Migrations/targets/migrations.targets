@@ -1,0 +1,25 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <MigratorMSBuild Condition=" '$(MigratorMSBuild)' == '' ">$(MSBuildProjectDirectory)\lib\Migrator.MSBuild.dll</MigratorMSBuild>
+      <ConnectionString Condition="'$(ConnectionString)' == ''">Database=Octopus_Dev;Data Source=localhost;Integrated Security=SSPI</ConnectionString>
+    </PropertyGroup>
+    
+	<UsingTask AssemblyFile="$(MigratorMSBuild)" TaskName="Migrator.MSBuild.Migrate"/> 
+
+	<Target Name="BuildAndMigrate" DependsOnTargets="Build; Migrate" />
+	
+    <Target Name="Migrate">
+        <CreateProperty Value="-1"  Condition="'$(MigrationNumber)'==''">
+           <Output TaskParameter="Value" PropertyName="MigrationNumber"/>
+        </CreateProperty>
+        <CreateProperty Value="$(OutputPath)$(AssemblyName).dll"  Condition="'$(Migration)'==''">
+           <Output TaskParameter="Value" PropertyName="Migration"/>
+        </CreateProperty>
+        <Message Text="Migrating to: $(MigrationNumber)"/>
+        <Message Text="Migration: $(Migration)"/>
+        <Migrate Provider="SqlServer"
+            Connectionstring="$(ConnectionString)"
+            Migrations="$(Migration)"
+            To="$(MigrationNumber)"/>
+    </Target>
+</Project>
