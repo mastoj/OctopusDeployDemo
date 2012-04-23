@@ -52,6 +52,8 @@
     <Compile Include="0001_CreateSiteInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="0002_CreateSiteInfo.cs" />
+    <Compile Include="0003_CreateSiteInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

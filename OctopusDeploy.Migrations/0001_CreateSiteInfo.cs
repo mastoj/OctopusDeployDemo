@@ -15,7 +15,7 @@ namespace OctopusDeploy.Migrations
             Database.AddTable("SiteInfo",
                     new Column("Message", DbType.AnsiString, 25)
                     );
-            Database.Insert("SiteInfo", new string[] {"Message"}, new string[] {"Hello migrtions"});
+            Database.Insert("SiteInfo", new string[] {"Message"}, new string[] {"Hello migrations 1.0.0.0"});
         }
 
         public override void Down()

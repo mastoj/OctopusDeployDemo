@@ -26,7 +26,7 @@ namespace OctopusDeployDemo.Controllers
             {
                 siteInfo = connection.Query<SiteInfo>("select Message from SiteInfo").First();
             }
-            ViewBag.Message = siteInfo.Message;
+            ViewBag.Message = siteInfo.Message + " this is awesome! (and local)";
 
             return View();
         }

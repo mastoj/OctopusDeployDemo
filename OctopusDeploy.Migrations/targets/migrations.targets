@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <MigratorMSBuild Condition=" '$(MigratorMSBuild)' == '' ">$(MSBuildProjectDirectory)\lib\Migrator.MSBuild.dll</MigratorMSBuild>
-      <ConnectionString Condition="'$(ConnectionString)' == ''">Database=Octopus_Dev;Data Source=localhost;Integrated Security=SSPI</ConnectionString>
+      <ConnectionString Condition="'$(ConnectionString)' == ''">Database=Octopus_Local;Data Source=localhost;Integrated Security=SSPI</ConnectionString>
     </PropertyGroup>
     
 	<UsingTask AssemblyFile="$(MigratorMSBuild)" TaskName="Migrator.MSBuild.Migrate"/> 
