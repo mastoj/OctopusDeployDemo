@@ -1,0 +1,29 @@
+This is a sample web and migratordotnet application to demonstrate Octopus deploy: www.octopusdeploy.com. It is pretty basic since the deployment packages doesn't do any configuration of IIS or the database.
+
+To get started:
+Create packages:
+ * Create migrations package run the following:
+   - C:\git\OctopusDeployDemo\OctopusDeploy.Migrations>nuget pack OctopusDeploy.Migrations.csproj -Version 1.0.0.4 -Build -Properties Configuration=Release
+   - That will create a deploy nuget package using the *.spec file containing the dll for the migrations and the migration script, you can find the package in the same folder with a name like *.nupkg.
+ * Create web package
+   - msbuild "/t:Rebuild" "/t:ResolveReferences" "/t:_CopyWebApplication" /p:Configuration=Release /p:WebProjectOutputDir=publish\ /p:OutDir=publish\bin\ /p:OctopusPackageVersion=1.0.0.5
+   - The deploy package will be located in the bin folder
+
+Configure Octopus
+1. Install octopus deploy and a octopus tentacle
+2. Create a nuget feed that (a simple file share is enough)
+  * Copy both of your packages to your nuget feed
+  * Set up Octopus to use the feed
+3. Create the database you want to use (MSSQL)
+3. Make sure the service that runs the tentacle has rights to add, change and delete tables in the database you want to use
+4. Create the web site you want to deploy to
+5. Create a project and setup an environment in Octopus deploy
+6. Create the following parameters:
+  - ConnectionString - should have a value like: Database=<your db>;Data Source=localhost;Integrated Security=SSPI
+     * This will be used for both the web site and the database project
+  - OctopusWebSiteName - should be a web site in IIS that the service that runs the tentacle has the right to change
+7. Create the following build steps:
+  - The first deploy step should deploy the database package
+  - The second deploy step should deploy the web site.
+
+If you want to use multiple environments and servers don't forget to configure duplicates of the parameters.
